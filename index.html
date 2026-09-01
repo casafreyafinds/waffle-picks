@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Freya Finds: Waffle Maker Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Work+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#231915;
+    --espresso-dark:#1A120D;
+    --cream:#FAF7F2;
+    --cream-2:#FFFBF5;
+    --terracotta:#C2410C;
+    --sage:#15803D;
+    --gold:#D97706;
+    --border-soft:#EBE3D5;
+    --ink:#1A0C08;
+    --ink-soft:#6B5B4C;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Work Sans', sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Playfair Display', serif;margin:0;color:var(--ink);font-weight:700;}
+  a{text-decoration:none;color:inherit;}
+
+  nav{
+    position:sticky; top:0; z-index:10;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 6vw;background:var(--espresso);color:var(--cream);
+    flex-wrap:wrap; gap:14px;
+  }
+  .ad-disclosure-bar{
+    flex-basis:100%; font-family:'Plus Jakarta Sans', sans-serif; font-size:0.7rem; color:#D9C7B0;
+    text-align:right; padding-top:4px; border-top:1px solid rgba(250,247,242,0.12);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name{font-family:'Playfair Display', serif;font-weight:700;font-size:1.05rem;color:var(--cream);white-space:nowrap;}
+  .brand-tagline{font-family:'Plus Jakarta Sans', sans-serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.03em;margin-top:2px;}
+  .brand-mark{width:26px;height:26px;flex-shrink:0;}
+  .jump-nav{display:flex;gap:6px;flex-wrap:wrap;}
+  .jump-link{
+    font-family:'Plus Jakarta Sans', sans-serif; font-size:0.75rem; letter-spacing:0.03em;
+    padding:6px 14px; border-radius:20px; border:1px solid rgba(250,247,242,0.25);
+    color:var(--cream); transition:background 0.15s ease, border-color 0.15s ease;
+  }
+  .jump-link:hover{ background:var(--brand-accent); border-color:var(--brand-accent); color:#FFFFFF; }
+
+  .hero{
+    position:relative; background:var(--espresso); color:var(--cream);
+    padding:60px 6vw 90px; overflow:hidden;
+  }
+  .hero-inner{max-width:720px; position:relative; z-index:2;}
+  .hero .eyebrow{font-family:'Plus Jakarta Sans', sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:18px;}
+  .hero h1{color:var(--cream);font-size:clamp(2.2rem, 5vw, 3.8rem);line-height:1.1;font-weight:700;letter-spacing:-0.01em;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:600;}
+  .hero p{margin-top:22px;font-size:1.05rem;line-height:1.55;color:#D5E8E0;max-width:540px;}
+
+  .waffle-wrap{position:absolute;right:6vw;top:50%;transform:translateY(-50%);width:170px;height:200px;z-index:1;}
+  @media (max-width:820px){ .waffle-wrap{display:none;} }
+
+  .brand-section{ padding:56px 6vw 20px; border-top:1px solid rgba(17,24,39,0.08); scroll-margin-top:80px; }
+  .section-intro{ max-width:820px; margin-bottom:8px; }
+  .section-intro .kicker{
+    font-family:'Plus Jakarta Sans', sans-serif; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--brand-accent);
+  }
+  .section-intro h2{ font-size:clamp(1.5rem, 3vw, 2.1rem); margin-top:8px; font-weight:700; line-height:1.3; font-style:italic; }
+  .section-intro p{ margin-top:12px; font-size:0.98rem; line-height:1.6; color:var(--ink-soft); max-width:760px; }
+
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:24px; padding:28px 0 60px; max-width:1400px;
+  }
+  .card{
+    position:relative;background:var(--cream-2);border:1px solid var(--border-soft);padding:28px 22px 24px;
+    border-radius:12px;
+    display:flex;flex-direction:column;transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(30,41,59,0.12);}
+  .top-pick-ribbon{
+    position:absolute; top:14px; right:14px; background:var(--terracotta); color:#FFFFFF;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:0.64rem; letter-spacing:0.04em; text-transform:uppercase;
+    padding:6px 13px; border-radius:4px; z-index:2;
+  }
+  .top-pick-ribbon.budget{ background:var(--sage); }
+  .card-icon{width:56px;height:56px;margin-bottom:14px;color:var(--brand-accent);}
+  .card-photo{width:100%;height:150px;object-fit:contain;margin-bottom:14px;background:var(--cream);border-radius:8px;}
+  .card .tier{font-family:'Plus Jakarta Sans', sans-serif;font-weight:600;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+  .card h3{font-size:1.12rem;font-weight:700;line-height:1.3;margin-bottom:4px;}
+  .card .persona{font-style:italic;font-family:'Playfair Display', serif;font-weight:600;color:var(--espresso);font-size:0.92rem;margin-bottom:12px;}
+  .card p.blurb{font-size:0.88rem;line-height:1.55;color:var(--ink-soft);margin:0 0 12px;}
+  .specs-list{list-style:none; margin:0 0 16px; padding:0; flex-grow:1; display:flex; flex-wrap:wrap; gap:6px;}
+  .specs-list li{
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:0.72rem; color:var(--ink-soft);
+    background:#FFFFFF; border:1px solid var(--border-soft); padding:5px 12px; border-radius:20px; line-height:1.3;
+  }
+  .badge-row{margin-bottom:18px;}
+  .feature-badge{
+    display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:0.7rem;
+    letter-spacing:0.02em; color:#FFFFFF; background:var(--sage); padding:6px 14px; border-radius:20px;
+  }
+  .price-tag{font-family:'Plus Jakarta Sans', sans-serif;font-weight:700;font-size:0.82rem;color:var(--ink);background:#FFFFFF;border:1px solid var(--gold);padding:5px 13px;border-radius:20px;white-space:nowrap;}
+  .price-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .shop-btn{
+    display:block;text-align:center;background:var(--gold);color:#FFFFFF;font-weight:600;font-size:0.9rem;
+    padding:13px;border-radius:6px;border:1.5px solid var(--gold);
+    transition:background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .shop-btn:hover{background:var(--brand-accent);border-color:var(--brand-accent);color:#FFFFFF;transform:translateY(-2px);box-shadow:0 8px 16px rgba(17,24,39,0.18);}
+
+  .explore-row{ display:flex; justify-content:center; padding:8px 0 50px; }
+  .explore-btn{
+    font-family:'Plus Jakarta Sans', sans-serif; font-size:0.85rem; letter-spacing:0.02em;
+    color:var(--brand-accent); border:1.5px solid var(--brand-accent); border-radius:24px;
+    padding:12px 26px; transition:background 0.15s ease, color 0.15s ease;
+  }
+  .explore-btn:hover{ background:var(--brand-accent); color:#FFFFFF; }
+
+  .disclosure{
+    max-width:900px; margin:20px 6vw 60px; padding:18px 22px;
+    background:var(--cream-2); border-left:3px solid var(--gold);
+    font-size:0.85rem; line-height:1.55; color:var(--ink-soft);
+  }
+  footer{
+    background:var(--espresso); color:#D9C7B0; padding:34px 6vw;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:0.85rem;
+  }
+  footer .brand{ color:var(--cream); font-family:'Playfair Display', serif; font-weight:700; }
+
+  @media (max-width:520px){
+    nav{padding:16px 5vw;}
+    .brand-tagline{display:none;}
+    .ad-disclosure-bar{text-align:center; font-size:0.62rem; padding-top:6px;}
+    .jump-link{padding:5px 12px; font-size:0.7rem;}
+    .hero{padding:44px 5vw 64px;}
+    .brand-section{padding:44px 5vw 10px;}
+    .disclosure{margin:16px 5vw 50px;}
+    footer{padding:26px 5vw;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 8H19V10.5C19 11.5 18.3 12.3 17.4 12.3H6.6C5.7 12.3 5 11.5 5 10.5V8Z" stroke="#D97706" stroke-width="1.3"/>
+      <rect x="4.5" y="12.3" width="15" height="8.7" rx="2" stroke="#D97706" stroke-width="1.3"/>
+      <rect x="9.5" y="3" width="5" height="3.5" rx="1" stroke="#D97706" stroke-width="1.2"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-name">Casa Freya Finds: Waffle Maker Edition</span>
+      <span class="brand-tagline">Home goods, perfectly toasted</span>
+    </div>
+  </div>
+  <div class="jump-nav">
+<a href="#breville" class="jump-link" style="--brand-accent:#B45309;">Breville</a>
+<a href="#cuisinart" class="jump-link" style="--brand-accent:#9F1239;">Cuisinart</a>
+<a href="#presto" class="jump-link" style="--brand-accent:#B91C1C;">Presto & Chefman</a>
+<a href="#dash" class="jump-link" style="--brand-accent:#EC4899;">Dash</a>
+<a href="#hamiltonbeach" class="jump-link" style="--brand-accent:#1E40AF;">Hamilton Beach</a>
+  </div>
+  <div class="ad-disclosure-bar">As an Amazon Associate, Casa Freya Finds earns from qualifying purchases.</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Waffle Maker Hub</span>
+    <h1>One page, five brands, <em>golden crispy perfection</em></h1>
+    <p>Jump straight to Breville, Cuisinart, Presto, Dash, or Hamilton Beach. Compare grid depth, browning controls, removable plates, and jump straight to Amazon prices.</p>
+  </div>
+  <svg class="waffle-wrap" viewBox="0 0 170 200">
+    <g stroke="#D97706" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" opacity="0.9">
+      <!-- delicate gold waffle grid motif -->
+      <rect x="35" y="60" width="100" height="80" rx="6"/>
+      <line x1="55" y1="60" x2="55" y2="140" stroke-width="1.2" opacity="0.6"/>
+      <line x1="75" y1="60" x2="75" y2="140" stroke-width="1.2" opacity="0.6"/>
+      <line x1="95" y1="60" x2="95" y2="140" stroke-width="1.2" opacity="0.6"/>
+      <line x1="115" y1="60" x2="115" y2="140" stroke-width="1.2" opacity="0.6"/>
+      <line x1="35" y1="80" x2="135" y2="80" stroke-width="1.2" opacity="0.6"/>
+      <line x1="35" y1="100" x2="135" y2="100" stroke-width="1.2" opacity="0.6"/>
+      <line x1="35" y1="120" x2="135" y2="120" stroke-width="1.2" opacity="0.6"/>
+      <!-- handle -->
+      <path d="M135 90 L155 90 C 160 90, 160 100, 155 100 L135 100"/>
+      <!-- sparkle accents -->
+      <path d="M62 42 L64 47 L69 49 L64 51 L62 56 L60 51 L55 49 L60 47 Z" fill="#D97706" stroke="none" opacity="0.85"/>
+      <path d="M108 32 L109.5 36 L113.5 37.5 L109.5 39 L108 43 L106.5 39 L102.5 37.5 L106.5 36 Z" fill="#D97706" stroke="none" opacity="0.7"/>
+    </g>
+  </svg>
+</section>
+
+
+<section class="brand-section" id="breville" style="--brand-accent:#B45309;">
+  <div class="section-intro">
+    <span class="kicker">Breville Roundup</span>
+    <h2>Every verified Breville pick</h2>
+    <p>The Smart Waffle Pro is Forbes Vetted's “Best Upgrade” pick after rigorously testing nine waffle makers over a month. These five span the compact No-Mess Classic to the flagship 4-Slice Smart Pro.</p>
+  </div>
+  <div class="grid">
+      <div class="card">
+        <div class="top-pick-ribbon ">Best Overall</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Slice · Forbes' Best Upgrade</div>
+        <h3>Breville Smart Waffle Pro, 4-Slice (BWM640XL)</h3>
+        <div class="persona">the do-it-all flagship</div>
+        <p class="blurb">Forbes Vetted's “Best Upgrade” after testing 9 waffle makers over a month — 12 browning levels, an LCD display, and a no-mess moat that catches every spill.</p>
+        <ul class="specs-list"><li>4-slice capacity</li><li>12 browning levels</li><li>1800W, no-mess moat</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Forbes' Best Upgrade</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$200-$280</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B00F5C1QK6?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · TechGearLab High Performer</div>
+        <h3>Breville No-Mess Classic Round (BWM520XL)</h3>
+        <div class="persona">the traditional round pick</div>
+        <p class="blurb">Praised by TechGearLab as a high-performing, high-quality option for classic round waffles — 7 browning settings and the same no-mess moat as the Pro.</p>
+        <ul class="specs-list"><li>Classic round waffle</li><li>7 browning settings</li><li>900W, no-mess moat</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">TechGearLab Rated</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$100-$140</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B00M2OI2NY?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Slice · Square</div>
+        <h3>Breville Smart Square, 4-Slice (BWM604BSS)</h3>
+        <div class="persona">the everyday family pick</div>
+        <p class="blurb">Four square waffles at once with 5 browning and 5 color settings — the same Thermal Pro even-heat technology as the Pro, at a lower price.</p>
+        <ul class="specs-list"><li>4-slice square capacity</li><li>5 browning settings</li><li>1800W</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Thermal Pro Even Heat</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$150-$200</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B01JJH57Z2?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        <div class="top-pick-ribbon budget">Best Budget</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">2 Slice · Compact</div>
+        <h3>Breville Smart Pro, 2-Slice (BWM620XL)</h3>
+        <div class="persona">the small-household pick</div>
+        <p class="blurb">Waffle IQ automatically calculates cooking time based on your chosen style and darkness — the Pro experience in a smaller 2-slice footprint.</p>
+        <ul class="specs-list"><li>2-slice capacity</li><li>12 color settings</li><li>1000W</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Waffle IQ</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$130-$180</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B00F5C1Q5Q?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Alt Colorway</div>
+        <h3>Breville No-Mess Classic, Cranberry Red</h3>
+        <div class="persona">the kitchen-matching pick</div>
+        <p class="blurb">The same TechGearLab-rated No-Mess formula, in cranberry red for kitchens where brushed steel doesn't fit the palette.</p>
+        <ul class="specs-list"><li>Classic round waffle</li><li>7 browning settings</li><li>900W, no-mess moat</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Alt Colorway</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$100-$140</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B06XRF1C8G?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+  </div>
+  <div class="explore-row">
+    <a class="explore-btn" href="https://www.amazon.com/s?k=Breville+waffle+maker&tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Explore more Breville waffle makers &rarr;</a>
+  </div>
+</section>
+<section class="brand-section" id="cuisinart" style="--brand-accent:#9F1239;">
+  <div class="section-intro">
+    <span class="kicker">Cuisinart Roundup</span>
+    <h2>Every verified Cuisinart pick</h2>
+    <p>The Double Flip Belgian is the single strongest flagship in this whole category — named “Best Overall” by both Forbes and CNN Underscored, with 4.6 stars across 10,000+ Amazon reviews. These five span a budget round classic to the 2-at-once Double Flip.</p>
+  </div>
+  <div class="grid">
+      <div class="card">
+        <div class="top-pick-ribbon ">Best Overall</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">2 Waffles · 4.6★, 10,000+ Reviews</div>
+        <h3>Cuisinart Double Flip Belgian (WAF-F40NAS)</h3>
+        <div class="persona">the best-in-category flagship</div>
+        <p class="blurb">Named “Best Overall” waffle maker by both Forbes and CNN Underscored — 4.6 stars across 10,000+ reviews. Cooks two full Belgian waffles at once with a 180-degree flip for even texture.</p>
+        <ul class="specs-list"><li>Makes 2 Belgian waffles at once</li><li>PFAS-free ceramic nonstick</li><li>1400W, 180° flip design</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Forbes & CNN's Best Overall</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$100-$150</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0FHMZ1HT3?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Slice · 2-in-1</div>
+        <h3>Cuisinart 4-Slice w/ Pancake Plates (WAF-300P1)</h3>
+        <div class="persona">the two-appliances-in-one pick</div>
+        <p class="blurb">Swap between Belgian waffle plates and a pancake plate — genuinely two breakfast appliances in one, with removable, dishwasher-safe plates.</p>
+        <ul class="specs-list"><li>4-slice Belgian waffles</li><li>Swappable pancake plates</li><li>6 browning levels</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Includes Pancake Plates</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$70-$100</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B08RJWX5LN?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · 4.7★, 851 Ratings</div>
+        <h3>Cuisinart Round Flip Belgian (WAF-F30NAS)</h3>
+        <div class="persona">the confirmed reliable pick</div>
+        <p class="blurb">Confirmed 4.7 stars across 851 ratings — a 180-degree rotary flip design with PFAS-free ceramic nonstick plates and a 3-year warranty.</p>
+        <ul class="specs-list"><li>1 thick Belgian waffle</li><li>180° rotary flip</li><li>5-setting browning control</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">4.7★, 851 Ratings</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$45-$70</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0F5YKHMSW?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        <div class="top-pick-ribbon budget">Best Budget</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · 1,700+ 5-Star Reviews</div>
+        <h3>Cuisinart Round Classic (WMR-CA)</h3>
+        <div class="persona">the budget everyday pick</div>
+        <p class="blurb">Over 1,700 five-star Amazon reviews — a simple, traditional round waffle maker with 5 browning settings and upright storage.</p>
+        <ul class="specs-list"><li>1 traditional round waffle</li><li>5 browning settings</li><li>Upright storage design</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">1,700+ 5-Star Reviews</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B00006JKZN?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Slice · With Accessories</div>
+        <h3>Cuisinart 4-Slice w/ Pancake Plates, Bundle</h3>
+        <div class="persona">the ready-to-go pick</div>
+        <p class="blurb">The same versatile 2-in-1 waffle-and-pancake formula, on an alternate current listing with the full accessory set.</p>
+        <ul class="specs-list"><li>4-slice Belgian waffles</li><li>Swappable pancake plates</li><li>Includes brush + tongs</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Includes Accessories</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$75-$110</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0FZM2JX7T?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+  </div>
+  <div class="explore-row">
+    <a class="explore-btn" href="https://www.amazon.com/s?k=Cuisinart+waffle+maker&tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Explore more Cuisinart waffle makers &rarr;</a>
+  </div>
+</section>
+<section class="brand-section" id="presto" style="--brand-accent:#B91C1C;">
+  <div class="section-intro">
+    <span class="kicker">Presto & Chefman Roundup</span>
+    <h2>Verified Presto, plus a Consumer Reports pick</h2>
+    <p>The FlipSide Ceramic Belgian is Forbes' “Best Value” pick and rated #2 by America's Test Kitchen — but several other Presto listings didn't hold up on closer inspection. So we paired the strongest Presto picks with Chefman's Anti-Overflow, Consumer Reports' own “Best Buy” waffle maker.</p>
+  </div>
+  <div class="grid">
+      <div class="card">
+        <div class="top-pick-ribbon ">Best Overall</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Forbes' Best Value</div>
+        <h3>Presto Ceramic FlipSide Belgian (03510)</h3>
+        <div class="persona">the budget-smart pick</div>
+        <p class="blurb">Forbes' “Best Value” pick and America's Test Kitchen's #2 overall — a unique side-flip design and ceramic nonstick grid at half the price of premium competitors.</p>
+        <ul class="specs-list"><li>7-inch thick Belgian waffle</li><li>Ceramic nonstick grid</li><li>Cool-touch handles</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Forbes' Best Value</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$35-$55</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B000TYBWIG?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">2 Appliances · Bundle</div>
+        <h3>Presto Waffle Bowl + Stuffler Bundle</h3>
+        <div class="persona">the variety pick</div>
+        <p class="blurb">Pairs the Waffle Bowl Maker with the Stuffler, which bakes fillings like fruit, chocolate, or cheese directly inside a Belgian-style waffle.</p>
+        <ul class="specs-list"><li>4-inch waffle bowl + stuffed waffles</li><li>Nonstick grids on both</li><li>2 recipe guides included</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">2-in-1 Bundle</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$60-$90</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0BVL93F1H?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        <div class="top-pick-ribbon budget">Best Budget</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · 4.4★, 98 Ratings</div>
+        <h3>Presto 03517 Flip Belgian</h3>
+        <div class="persona">the confirmed budget pick</div>
+        <p class="blurb">Confirmed 4.4 stars across 98 ratings — Presto's straightforward flip-style Belgian waffle maker at an accessible price.</p>
+        <ul class="specs-list"><li>Belgian-style flip design</li><li>Nonstick plates</li><li>Compact storage</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">4.4★, 98 Ratings</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0D7QGWM1V?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Consumer Reports' Best Buy</div>
+        <h3>Chefman Anti-Overflow Belgian, Black</h3>
+        <div class="persona">the mess-free pick</div>
+        <p class="blurb">Consumer Reports' own “Best Buy” pick — a wrap-around moat catches excess batter before it overflows, with 7 shade settings.</p>
+        <ul class="specs-list"><li>7-inch round Belgian waffle</li><li>Anti-overflow moat</li><li>7 shade settings</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Consumer Reports' Best Buy</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B07L4Z2X81?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Alt Finish</div>
+        <h3>Chefman Anti-Overflow Belgian, Stainless</h3>
+        <div class="persona">the kitchen-matching pick</div>
+        <p class="blurb">The same Consumer Reports-rated Anti-Overflow formula, in stainless steel for kitchens where black doesn't fit the palette.</p>
+        <ul class="specs-list"><li>7-inch round Belgian waffle</li><li>Anti-overflow moat</li><li>7 shade settings</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Consumer Reports' Best Buy</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$30-$45</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B08KTJMTMM?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+  </div>
+  <div class="explore-row">
+    <a class="explore-btn" href="https://www.amazon.com/s?k=Presto+Chefman+waffle+maker&tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Explore more Presto & Chefman waffle makers &rarr;</a>
+  </div>
+</section>
+<section class="brand-section" id="dash" style="--brand-accent:#EC4899;">
+  <div class="section-intro">
+    <span class="kicker">Dash Roundup</span>
+    <h2>Every verified Dash pick</h2>
+    <p>The Dash Mini Waffle Maker is a genuine phenomenon — 4.8 stars across 7,477 reviews, a fixture on wedding registries and dorm-room counters alike. These five span the original mini to family-size multi-waffle models.</p>
+  </div>
+  <div class="grid">
+      <div class="card">
+        <div class="top-pick-ribbon ">Best Overall</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4-Inch · 4.8★, 7,477 Reviews</div>
+        <h3>Dash Mini Waffle Maker, Red</h3>
+        <div class="persona">the viral bestseller</div>
+        <p class="blurb">4.8 stars across 7,477 reviews — the original compact Dash mini waffle maker, a fixture of dorm rooms, wedding registries, and small kitchens everywhere.</p>
+        <ul class="specs-list"><li>4-inch mini waffle</li><li>Quick heat-up system</li><li>Nonstick cooking surface</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">4.8★, 7,477 Reviews</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$10-$20</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B010TCP3SC?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        <div class="top-pick-ribbon budget">Best Budget</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4-Inch · Alt Colorway</div>
+        <h3>Dash Mini Waffle Maker, Aqua</h3>
+        <div class="persona">the color-matching pick</div>
+        <p class="blurb">The same viral mini waffle maker, in aqua for anyone who wants their kitchen counter to coordinate.</p>
+        <ul class="specs-list"><li>4-inch mini waffle</li><li>Quick heat-up system</li><li>Nonstick cooking surface</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Alt Colorway</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$10-$20</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B01M9I779L?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Mini Waffles · Family Size</div>
+        <h3>Dash No-Drip Waffle Maker, 4-Square</h3>
+        <div class="persona">the family-breakfast pick</div>
+        <p class="blurb">Makes 4 mini waffles at once with built-in pocket sides that catch overflow batter — no more drips on the counter.</p>
+        <ul class="specs-list"><li>4 mini waffles at once</li><li>Overflow-catching pockets</li><li>Quick heat-up system</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">No-Drip Design</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B08ML7J5SG?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4 Mini Waffles · At Once</div>
+        <h3>Dash Multi Mini Waffle Maker, Graphite</h3>
+        <div class="persona">the batch-cooking pick</div>
+        <p class="blurb">Another 4-at-once mini format in a sleek graphite finish — good for cooking waffle sticks, chaffles, and hash browns in batches.</p>
+        <ul class="specs-list"><li>4 mini waffles at once</li><li>Nonstick cooking surface</li><li>Built-in cord wrap</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Batch Cooking</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B08P3RQ86F?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">4-Inch · Trendy Print</div>
+        <h3>Dash Mini Waffle Maker, Leopard Print</h3>
+        <div class="persona">the Pinterest-favorite pick</div>
+        <p class="blurb">The same 4.8-star mini waffle maker in a trendy leopard print — genuinely one of the most-photographed small appliances on Pinterest.</p>
+        <ul class="specs-list"><li>4-inch mini waffle</li><li>Quick heat-up system</li><li>Nonstick cooking surface</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Trendy Print</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$10-$20</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B08BCS4YS5?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+  </div>
+  <div class="explore-row">
+    <a class="explore-btn" href="https://www.amazon.com/s?k=Dash+waffle+maker&tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Explore more Dash waffle makers &rarr;</a>
+  </div>
+</section>
+<section class="brand-section" id="hamiltonbeach" style="--brand-accent:#1E40AF;">
+  <div class="section-intro">
+    <span class="kicker">Hamilton Beach Roundup</span>
+    <h2>Every verified Hamilton Beach pick</h2>
+    <p>The 26031 Belgian Waffle Maker holds 4.6 stars across 3,300+ Amazon reviews, with Durathon ceramic grids rated four times more durable than standard nonstick. These five span a single flip classic to a double-flip family model.</p>
+  </div>
+  <div class="grid">
+      <div class="card">
+        <div class="top-pick-ribbon ">Best Overall</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · 4.6★, 3,300+ Reviews</div>
+        <h3>Hamilton Beach 26031, Durathon Ceramic</h3>
+        <div class="persona">the durable everyday pick</div>
+        <p class="blurb">4.6 stars across 3,300+ reviews — Durathon ceramic nonstick grids rated 4x more durable than traditional nonstick, with removable, dishwasher-safe plates.</p>
+        <ul class="specs-list"><li>Removable ceramic grids</li><li>4x more durable coating</li><li>Dishwasher-safe plates</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">4.6★, 3,300+ Reviews</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$35-$55</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B07H81RRHJ?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        <div class="top-pick-ribbon budget">Best Budget</div>
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Long-Standing Classic</div>
+        <h3>Hamilton Beach 26030, Flip Belgian</h3>
+        <div class="persona">the proven reliable pick</div>
+        <p class="blurb">A long-running Hamilton Beach classic with a genuine track record — removable plates, a collapsible handle, and an easy-clean drip tray.</p>
+        <ul class="specs-list"><li>Removable nonstick plates</li><li>Collapsible storage handle</li><li>Easy-clean drip tray</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Long-Standing Classic</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$25-$40</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B007AHLIZC?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">2 Waffles · At Once</div>
+        <h3>Hamilton Beach 26201, Double Flip</h3>
+        <div class="persona">the family-breakfast pick</div>
+        <p class="blurb">Makes two full Belgian waffles at once with a 180-degree flip design — gets a hungry family fed and out the door faster.</p>
+        <ul class="specs-list"><li>2 Belgian waffles at once</li><li>PFAS-free nonstick plates</li><li>180° flip design</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Makes 2 at Once</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$40-$60</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B084P5CCZC?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · Black Finish</div>
+        <h3>Hamilton Beach 26010R, Belgian Style</h3>
+        <div class="persona">the simple classic pick</div>
+        <p class="blurb">A straightforward Belgian-style flip waffle maker in black — reviewers specifically call out its crispy, restaurant-quality results.</p>
+        <ul class="specs-list"><li>Belgian-style flip design</li><li>Browning control dial</li><li>Indicator lights</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">Restaurant-Quality Results</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$30-$45</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B0057GUV1A?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+      <div class="card">
+        
+        <svg class="card-icon" viewBox="0 0 64 64" fill="none">
+  <rect x="12" y="12" width="40" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="2"/>
+  <line x1="12" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="2"/>
+  <line x1="22" y1="12" x2="22" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="currentColor" stroke-width="2"/>
+  <line x1="42" y1="12" x2="42" y2="52" stroke="currentColor" stroke-width="2"/>
+</svg>
+        <div class="tier">1 Waffle · PFAS-Free</div>
+        <h3>Hamilton Beach 26081, Ceramic-Coated</h3>
+        <div class="persona">the health-conscious pick</div>
+        <p class="blurb">A PFAS-free ceramic-coated nonstick surface with browning control and indicator lights — Hamilton Beach's newer ceramic formula.</p>
+        <ul class="specs-list"><li>PFAS-free ceramic coating</li><li>Browning control dial</li><li>Indicator lights</li></ul>
+        <div class="badge-row">
+          <span class="feature-badge">PFAS-Free Ceramic</span>
+        </div>
+        <div class="price-row">
+          <span class="price-tag">$30-$50</span>
+        </div>
+        <a class="shop-btn" href="https://www.amazon.com/dp/B07MWY7SJR?tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Check Price on Amazon &rarr;</a>
+      </div>
+  </div>
+  <div class="explore-row">
+    <a class="explore-btn" href="https://www.amazon.com/s?k=Hamilton+Beach+waffle+maker&tag=casafreyafind-20" target="_blank" rel="noopener sponsored">Explore more Hamilton Beach waffle makers &rarr;</a>
+  </div>
+</section>
+
+<div class="disclosure">
+  <strong>As an Amazon Associate I earn from qualifying purchases.</strong> Links on this page are affiliate links &mdash; if you buy something after clicking through, Casa Freya Finds: Waffle Maker Edition may earn a small commission at no extra cost to you. Prices and availability are set by Amazon and can change. Casa Freya Finds: Waffle Maker Edition is not affiliated with Amazon.com, Inc., Breville, Cuisinart, Presto & Chefman, Dash, and Hamilton Beach.
+</div>
+
+<footer>
+  <span class="brand">Casa Freya Finds: Waffle Maker Edition</span>
+  <span>&copy; 2026 &middot; Waffle Maker Hub</span>
+</footer>
+
+</body>
+</html>
